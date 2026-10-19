@@ -26,9 +26,10 @@ node check.mjs
 - `build.mjs`: creates both standalone HTML files with embedded local audio.
 - `chorus.m4a` and `full-track.m4a`: browser-compatible AAC audio assets.
 
-Keep the two local audio files beside the source when rebuilding. They and the
-generated HTML files are excluded from Git by default because they contain the
-private song. Nothing is uploaded or published by the build.
+The audio files are committed; the generated HTML files are not. Run
+`./deploy.sh` to rebuild, check, and publish to the `gh-pages` branch. The full
+film is served at the site root and the 20-second chorus study at
+`/counting-down-preview.html`. The Pages site is public.
 
 ## Second-cut direction
 

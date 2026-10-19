@@ -1,5 +1,4 @@
-# Private local audio and generated files containing embedded audio.
-*.m4a
+# Generated files (rebuilt by `node build.mjs` and by the Pages workflow).
 counting-down-preview.html
 counting-down-full-film.html
 .DS_Store
