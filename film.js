@@ -20,6 +20,7 @@ const ink=dark?C.surface:C.text;
 const gray=C['border-strong'];
 const muted=C['text-muted'];
 const rose=C.accent;
+const SKIN='#a9a9a9',HAIR='#5c5c5c',TROUSERS='#4d5361',EYE='#2e2e2e';
 const NIGHT='#2b3453',NIGHT2='#46557f',MOON='#f2e6c4',DAWN='#f6d9c4',DUSK='#efc3b0',GOLD='#e9b44c';
 
 const clamp=x=>Math.max(0,Math.min(1,x));
@@ -272,16 +273,16 @@ function face(t,mood,look,seed,boy){
   if(GHOST)return;
   const ex=look*3.5,blink=((t+seed*1.3)%3.4)<.12;
   for(const x of [-10,5]){
-    if(mood==='laugh')line([[x-4,-154],[x,-160],[x+4,-154]],white,2.2);
-    else if(mood==='sleepy'||blink)line([[x-4,-157],[x+4,-157]],white,2.2);
-    else if(mood==='annoyed'){oval(x+ex,-156,4,2.6,white);line([[x-5,-159],[x+5,-159.5]],white,1.6);}
-    else if(mood==='surprise')oval(x+ex,-158,4.5,5.5,white);
-    else oval(x+ex,-158,3.3,4.2,white);
+    if(mood==='laugh')line([[x-4,-154],[x,-160],[x+4,-154]],EYE,2.2);
+    else if(mood==='sleepy'||blink)line([[x-4,-157],[x+4,-157]],EYE,2.2);
+    else if(mood==='annoyed'){oval(x+ex,-156,4,2.6,EYE);line([[x-5,-159],[x+5,-159.5]],EYE,1.6);}
+    else if(mood==='surprise')oval(x+ex,-158,4.5,5.5,EYE);
+    else oval(x+ex,-158,3.3,4.2,EYE);
   }
   alpha(.6,()=>{oval(-16,-149,4,2.6,rose);oval(11,-149,4,2.6,rose);});
-  ctx.save();ctx.strokeStyle=white;ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath();
-  if(mood==='laugh'){ctx.restore();oval(-2+ex*.4,-145,6,4.5,white);return;}
-  if(mood==='surprise'){ctx.restore();oval(-2,-145,3,3.6,white);return;}
+  ctx.save();ctx.strokeStyle=EYE;ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath();
+  if(mood==='laugh'){ctx.restore();oval(-2+ex*.4,-145,6,4.5,EYE);return;}
+  if(mood==='surprise'){ctx.restore();oval(-2,-145,3,3.6,EYE);return;}
   if(mood==='annoyed'||mood==='sad')ctx.moveTo(-7,-145),ctx.lineTo(3,-145.5);
   else if(mood==='sleepy')ctx.arc(-2,-145,3,0,Math.PI*2);
   else ctx.arc(-2+ex*.4,-150,6,.25*Math.PI,.75*Math.PI);
@@ -299,51 +300,52 @@ function person(x,y,o={}){
   const liftL=run?Math.max(0,Math.sin(cyc+1.6))*18:0,liftR=run?Math.max(0,-Math.sin(cyc+1.6))*18:0;
   const bounce=run?-Math.abs(Math.sin(cyc))*7:walk?-Math.abs(Math.sin(cyc))*3:-kick(t)*2.2;
   ctx.translate(0,bounce);
-  line([[-11,-66],[-12+stride,-5-liftL]],ink,14);
-  line([[11,-66],[13-stride,-5-liftR]],ink,14);
+  const legs=boy?TROUSERS:SKIN;
+  line([[-11,-66],[-12+stride,-5-liftL]],legs,14);
+  line([[11,-66],[13-stride,-5-liftR]],legs,14);
   line([[-12+stride,-4-liftL],[-25+stride,-4-liftL]],ink,7);
   line([[13-stride,-4-liftR],[24-stride,-4-liftR]],ink,7);
   ctx.translate(0,-66);ctx.rotate(lean+(run?.1:0));ctx.translate(0,66);
   ctx.save();ctx.translate(0,-68);ctx.scale(1,1+Math.sin(q*2.2+seed)*.014);ctx.translate(0,68);
   poly(boy?[[-24,-132],[-12,-140],[10,-140],[23,-131],[20,-76],[-21,-76]]:[[-21,-136],[15,-136],[31,-68],[-30,-68]],boy?muted:rose,true);
-  if(boy)poly([[-21,-78],[20,-78],[20,-62],[-20,-62]],ink);
+  if(boy)poly([[-21,-78],[20,-78],[20,-62],[-20,-62]],TROUSERS);
   else stitch([[-26,-80],[26,-80]],paper,1.4);
   ctx.restore();
   const sw=stride*.6,k=kick(t);
   if(pose==='violin'){
     const bow=Math.sin(beatFloat(t)*Math.PI)*20;
     violin(12,-122,.55,-1.15);
-    line([[-18,-126],[-30,-112],[-38,-136]],ink,9);
-    line([[17,-126],[28,-100],[36+bow,-108]],ink,9);
+    line([[-18,-126],[-30,-112],[-38,-136]],SKIN,9);
+    line([[17,-126],[28,-100],[36+bow,-108]],SKIN,9);
     line([[6+bow,-150],[66+bow,-96]],ink,2.5);
   }else if(pose==='phone'){
-    line([[-18,-126],[-33,-98],[-31,-75]],ink,9);
-    line([[17,-126],[33,-110],[37,-132]],ink,9);
+    line([[-18,-126],[-33,-98],[-31,-75]],SKIN,9);
+    line([[17,-126],[33,-110],[37,-132]],SKIN,9);
     poly([[29,-149],[39,-150],[42,-125],[33,-124]],white);
   }else if(pose==='hug'){
-    line([[-18,-125],[-10,-100],[16,-96]],ink,9);
-    line([[17,-126],[44,-130],[62,-120]],ink,9);
+    line([[-18,-125],[-10,-100],[16,-96]],SKIN,9);
+    line([[17,-126],[44,-130],[62,-120]],SKIN,9);
   }else if(pose==='wave'){
-    line([[-18,-126],[-24,-96],[-22,-76]],ink,9);
-    line([[17,-126],[36,-150],[40+Math.sin(q*12)*9,-178]],ink,9);
+    line([[-18,-126],[-24,-96],[-22,-76]],SKIN,9);
+    line([[17,-126],[36,-150],[40+Math.sin(q*12)*9,-178]],SKIN,9);
   }else if(pose==='reach'){
-    line([[-18,-126],[12,-130],[46,-134]],ink,9);line([[17,-126],[44,-134],[70,-140]],ink,9);
+    line([[-18,-126],[12,-130],[46,-134]],SKIN,9);line([[17,-126],[44,-134],[70,-140]],SKIN,9);
   }else if(pose==='sign'||pose==='cheer'){
-    line([[-18,-126],[-28,-158],[-22,-196+k*3]],ink,9);line([[17,-126],[27,-158],[21,-196+k*3]],ink,9);
+    line([[-18,-126],[-28,-158],[-22,-196+k*3]],SKIN,9);line([[17,-126],[27,-158],[21,-196+k*3]],SKIN,9);
   }else if(run){
-    line([[-18,-126],[-30-sw,-106],[-18-sw*1.5,-92]],ink,9);line([[17,-126],[30+sw,-106],[18+sw*1.5,-92]],ink,9);
+    line([[-18,-126],[-30-sw,-106],[-18-sw*1.5,-92]],SKIN,9);line([[17,-126],[30+sw,-106],[18+sw*1.5,-92]],SKIN,9);
   }else{
     const sway=Math.sin(q*1.3+seed)*2;
-    line([[-18,-126],[-25-sw*.7,-93],[-22-sw,-75+sway]],ink,9);
-    line([[17,-126],[25+sw*.7,-102],[23+sw,-78-sway]],ink,9);
+    line([[-18,-126],[-25-sw*.7,-93],[-22-sw,-75+sway]],SKIN,9);
+    line([[17,-126],[25+sw*.7,-102],[23+sw,-78-sway]],SKIN,9);
   }
   ctx.save();ctx.translate(-2,-136);ctx.rotate(look*.07+(mood==='laugh'?Math.sin(q*14)*.07:0));ctx.translate(2,136);
-  oval(-2,-158,19,24,ink);
+  oval(-2,-158,19,24,SKIN);
   if(boy){
-    poly([[-21,-163],[-21,-176],[-12,-181],[-4,-180],[2,-186],[7,-177],[16,-175],[19,-164],[8,-169],[-9,-169]],ink);
+    poly([[-21,-163],[-21,-176],[-12,-181],[-4,-180],[2,-186],[7,-177],[16,-175],[19,-164],[8,-169],[-9,-169]],HAIR);
     // the duck tuft
-    poly([[2,-180],[5,-193],[13,-199],[20,-197],[12,-192],[10,-181]],ink);
-  }else poly([[-22,-151],[-24,-173],[-12,-184],[6,-185],[19,-174],[23,-143],[10,-144],[8,-168],[-10,-169]],ink);
+    poly([[3,-180],[5,-187],[10,-191],[14,-190],[9,-186],[9,-181]],HAIR);
+  }else poly([[-22,-151],[-24,-173],[-12,-184],[6,-185],[19,-174],[23,-143],[10,-144],[8,-168],[-10,-169]],HAIR);
   face(t,mood,look,seed,boy);
   ctx.restore();
   ctx.restore();GHOST=was;
@@ -366,14 +368,14 @@ function bike(x,y,s=1,spin=0,riders=[],t=NOW,bell=0){
       if(!r)return;
       const px=i?27:-43,was=GHOST;GHOST=!!r.ghost;
       ctx.save();ctx.translate(px,-48);
-      oval(0,-98,14,18,ink);
-      if(r.boy){poly([[-14,-109],[-12,-119],[1,-122],[9,-117],[14,-109]],ink);poly([[1,-118],[4,-128],[11,-131],[8,-122]],ink);}
-      else poly([[-16,-103],[-17,-117],[-7,-124],[8,-122],[17,-108],[18,-91],[9,-92]],ink);
-      if(!GHOST){oval(5,-101,2.3,3,white);oval(-5,-101,2.3,3,white);alpha(.6,()=>oval(-9,-94,3,2,rose));}
+      oval(0,-98,14,18,SKIN);
+      if(r.boy){poly([[-14,-109],[-12,-119],[1,-122],[9,-117],[14,-109]],HAIR);poly([[2,-119],[4,-124],[8,-126],[6,-121]],HAIR);}
+      else poly([[-16,-103],[-17,-117],[-7,-124],[8,-122],[17,-108],[18,-91],[9,-92]],HAIR);
+      if(!GHOST){oval(5,-101,2.3,3,EYE);oval(-5,-101,2.3,3,EYE);alpha(.6,()=>oval(-9,-94,3,2,rose));}
       poly([[-12,-77],[9,-80],[23,-33],[-12,-31]],r.boy?muted:rose,true);
-      line([[9,-68],[26,-47],[40,-40]],ink,7);
+      line([[9,-68],[26,-47],[40,-40]],SKIN,7);
       const a=Math.sin(pedal+i)*10;
-      line([[0,-30],[22,-6+a],[10,15]],ink,8);line([[-6,-30],[-15,-4-a],[3,15]],ink,6);
+      line([[0,-30],[22,-6+a],[10,15]],r.boy?TROUSERS:SKIN,8);line([[-6,-30],[-15,-4-a],[3,15]],r.boy?TROUSERS:SKIN,6);
       ctx.restore();GHOST=was;
     });
   });
@@ -590,9 +592,9 @@ function postcards(t){
       for(let i=0;i<9;i++){const a=i*Math.PI*2/9;oval(Math.cos(a)*92,Math.sin(a)*62,44,40,white);}
       oval(0,0,100,70,white);
       ctx.save();ctx.translate(0,215);ctx.scale(1.35,1.35);
-      oval(-2,-158,19,24,ink);
-      poly([[-21,-163],[-21,-176],[-12,-181],[-4,-180],[2,-186],[7,-177],[16,-175],[19,-164],[8,-169],[-9,-169]],ink);
-      poly([[2,-180],[5,-193],[13,-199+Math.sin(t*6)*3],[20,-197],[12,-192],[10,-181]],ink);
+      oval(-2,-158,19,24,SKIN);
+      poly([[-21,-163],[-21,-176],[-12,-181],[-4,-180],[2,-186],[7,-177],[16,-175],[19,-164],[8,-169],[-9,-169]],HAIR);
+      poly([[3,-180],[5,-187],[10,-191+Math.sin(t*6)*2],[14,-190],[9,-186],[9,-181]],HAIR);
       face(t,'sleepy',0,1,true);ctx.restore();
       script('z',60,-30,22,muted);script('z',76,-48,16,muted);
     });
