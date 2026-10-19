@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counting Down to December — Paper universe study</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; }
+main { max-width: 1320px; margin: auto; padding: 36px 32px; }
+header { display: flex; justify-content: space-between; gap: 24px; align-items: start; margin-bottom: 24px; }
+.eyebrow { color: var(--cp-accent); letter-spacing: .18em; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+h1 { font-family: Georgia, serif; font-size: clamp(25px, 3.5vw, 40px); font-weight: 400; margin: 8px 0; }
+.sub, .note { color: var(--cp-text-muted); font-size: 13px; line-height: 1.6; margin: 0; }
+.badge { border: 1px solid var(--cp-border); border-radius: 10px; padding: 8px 12px; font-size: 11px; white-space: nowrap; }
+.stage { background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); border-radius: 16px; overflow: hidden; position: relative; }
+canvas { width: 100%; aspect-ratio: 16 / 9; display: block; }
+.controls { display: flex; gap: 16px; align-items: center; padding: 16px 20px; border-top: 1px solid var(--cp-border); background: var(--cp-surface); }
+button, .download { font: inherit; font-size: 13px; border-radius: 10px; padding: 10px 16px; cursor: pointer; text-decoration: none; }
+button { border: 0; background: var(--cp-accent); color: var(--cp-accent-fg); min-width: 98px; }
+button:hover { background: var(--cp-accent-hover); }
+button:disabled { opacity: .5; cursor: wait; }
+.download { color: var(--cp-text); border: 1px solid var(--cp-border); }
+input { accent-color: var(--cp-accent); flex: 1; min-width: 30px; }
+time { color: var(--cp-text-muted); font: 11px Consolas, "Courier New", Courier, monospace; white-space: nowrap; }
+footer { display: flex; justify-content: space-between; align-items: start; gap: 24px; margin-top: 20px; }
+.note { max-width: 680px; }
+#error { color: var(--cp-danger); margin-top: 12px; }
+@media (max-width: 640px) { main { padding: 24px 12px; } header { gap: 8px; } .badge { display: none; } footer { flex-direction: column; gap: 12px; } .controls { padding: 12px; gap: 8px; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div><div class="eyebrow">A paper universe · motion study 01</div><h1>Counting Down to December</h1><p class="sub">Two places. One thread. A little closer with every sunrise.</p></div>
+    <span class="badge">FIRST CHORUS / 20 SECONDS</span>
+  </header>
+  <section class="stage" aria-label="Animated paper scrapbook music video preview">
+    <canvas id="film" width="1600" height="900" role="img" aria-label="Two paper silhouettes in home and Madrid scrapbook scenes, connected by a red thread, with rising sun and flying calendar pages"></canvas>
+    <div class="controls">
+      <button id="play" disabled>Loading…</button>
+      <button id="restart" aria-label="Restart excerpt" style="min-width: auto; background: var(--cp-surface-soft); color: var(--cp-text)">↺</button>
+      <input id="seek" type="range" min="0" max="20" step=".01" value="0" aria-label="Preview position in seconds">
+      <time id="clock">0:00 / 0:20</time>
+    </div>
+  </section>
+  <footer>
+    <p class="note"><strong>Look &amp; feel, not final character design.</strong> A 20-second excerpt beginning at 0:40.372 in your track. Layered paper, stepped character motion, a traveling sunrise, and a thread connecting two worlds. Press play for sound.</p>
+    <a class="download" href="counting-down-preview.html" download>Save standalone preview ↓</a>
+  </footer>
+  <p id="error" role="alert" hidden></p>
+  <audio id="song" preload="auto" src="chorus.m4a"></audio>
+</main>
+<script>
+'use strict';
+const canvas = document.querySelector('#film');
+const ctx = canvas.getContext('2d');
+const audio = document.querySelector('#song');
+const play = document.querySelector('#play');
+const seek = document.querySelector('#seek');
+const clock = document.querySelector('#clock');
+const style = getComputedStyle(document.documentElement);
+const color = name => style.getPropertyValue('--cp-' + name).trim();
+const C = Object.fromEntries(['bg','bg-elevated','surface','border','border-strong','text','text-muted','text-soft','accent','accent-hover','accent-fg','highlight','sheen'].map(k => [k, color(k)]));
+const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+// In dark mode, reverse the neutral paper values to retain contrast without an alternate palette.
+const paper = dark ? C.text : C.bg;
+const pale = dark ? C['text-soft'] : C['bg-elevated'];
+const ink = dark ? C.surface : C.text;
+const gray = C['border-strong'];
+const accent = C.accent;
+const clamp = x => Math.max(0, Math.min(1, x));
+const smooth = x => { x = clamp(x); return x * x * (3 - 2 * x); };
+function polygon(points, fill, shadow = false) {
+  ctx.save();
+  if (shadow) { ctx.shadowColor = ink; ctx.shadowBlur = 10; ctx.shadowOffsetY = 7; }
+  ctx.fillStyle = fill; ctx.beginPath();
+  points.forEach(([x,y], i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function line(points, stroke, width = 2) {
+  ctx.strokeStyle = stroke; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.stroke();
+}
+function ellipse(x,y,rx,ry,fill) {
+  ctx.fillStyle = fill; ctx.beginPath(); ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2); ctx.fill();
+}
+function text(label,x,y,size=22,fill=ink,align='center',font='Georgia') {
+  ctx.fillStyle = fill; ctx.textAlign = align; ctx.font = `${size}px ${font}`; ctx.fillText(label,x,y);
+}
+let seed = 2317;
+function random() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+const grain = document.createElement('canvas'); grain.width = 1600; grain.height = 900;
+const g = grain.getContext('2d');
+for (let i = 0; i < 32000; i++) {
+  g.globalAlpha = random() * .045; g.fillStyle = i % 2 ? ink : C.surface;
+  g.fillRect(random()*1600,random()*900,random()*2+0.5,random()+0.5);
+}
+function person(x,y,flip,t,variant=0) {
+  ctx.save(); ctx.translate(x,y); ctx.scale(flip,1);
+  ctx.rotate(Math.sin(Math.floor(t*10)/10*1.7+variant)*.014);
+  ellipse(0,0,29,6,gray);
+  polygon([[-18,-69],[-4,-69],[-6,-5],[-19,-3]],ink);
+  polygon([[4,-69],[19,-66],[24,-4],[11,-3]],ink);
+  polygon(variant ?
+    [[-23,-133],[-12,-139],[8,-139],[22,-132],[19,-81],[-21,-81]] :
+    [[-23,-134],[14,-134],[30,-66],[-29,-66]],variant ? C['text-muted'] : accent,true);
+  if(variant) polygon([[-21,-82],[19,-82],[19,-63],[-20,-63]],ink);
+  ellipse(-2,-157,19,24,ink);
+  polygon(variant ? [[-21,-162],[-21,-175],[-13,-180],[-5,-179],[2,-185],[6,-178],[15,-176],[19,-165],[9,-169],[-8,-169]] :
+    [[-22,-153],[-23,-173],[-12,-183],[7,-184],[20,-171],[21,-143],[11,-145],[9,-167],[-9,-169]],ink);
+  line([[-19,-126],[-35,-94],[-31,-74]],ink,10);
+  line([[14,-126],[33,-111],[38,-132]],ink,10);
+  // A tiny paper telephone, held at the cheek.
+  polygon([[30,-149],[40,-150],[43,-126],[34,-125]],pale);
+  ctx.restore();
+}
+function bike(x,y) {
+  ctx.save(); ctx.translate(x,y); ctx.globalAlpha = .8;
+  for (const wheel of [-66,66]) {
+    ctx.beginPath(); ctx.arc(wheel,0,30,0,Math.PI*2); ctx.strokeStyle=ink; ctx.lineWidth=3; ctx.stroke();
+    for(let k=0;k<8;k++) { const a=k*Math.PI/4; line([[wheel,0],[wheel+Math.cos(a)*28,Math.sin(a)*28]],gray,1); }
+  }
+  line([[-66,0],[-38,-43],[-8,0],[-66,0]],accent,4);
+  line([[-38,-43],[25,-43],[-8,0],[66,0],[45,-57]],accent,4);
+  line([[25,-43],[41,0]],accent,4);
+  line([[-40,-45],[-42,-58],[-53,-58]],ink,4);
+  line([[22,-45],[20,-58],[9,-58]],ink,4);
+  line([[45,-57],[42,-68],[58,-71]],ink,4); ctx.restore();
+}
+function house(x,y,w,h,roof=true) {
+  polygon([[x,y],[x+2,y-h],[x+w-3,y-h+1],[x+w,y]],pale,true);
+  if(roof) polygon([[x-9,y-h],[x+w*.48,y-h-52],[x+w+9,y-h]],C['text-muted'],true);
+  for(let row=0;row<2;row++) for(let col=0;col<2;col++) {
+    const wx=x+16+col*(w-36), wy=y-h+24+row*49;
+    polygon([[wx,wy],[wx+15,wy-1],[wx+16,wy+23],[wx,wy+23]],accent);
+    line([[wx+7,wy],[wx+7,wy+23]],paper,1);
+  }
+}
+function bird(x,y,s,t) {
+  ctx.save(); ctx.translate(x,y); ctx.rotate(-.2+Math.sin(t)*.15); ctx.scale(s,s);
+  polygon([[-22,3],[0,-5],[19,-22],[12,1],[31,8],[5,12],[-5,24],[-9,8]],pale,true);
+  line([[-12,5],[7,4],[17,8]],gray,1); ctx.restore();
+}
+const lyrics = [
+  [0, 'But I’m counting down to December,'],
+  [4.867, 'Every sunrise pulls me closer.'],
+  [8.937, 'Spain feels like a world away,'],
+  [11.171, 'But you’re still my midnight caller.'],
+  [14.841, 'And I get annoyed when you speak Spanish—'],
+  [17.474, 'You’ll get better, I just know it—']
+];
+function draw(t) {
+  ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=1;
+  ctx.fillStyle=paper; ctx.fillRect(0,0,1600,900);
+  text('UNTIL THE PAGES MEET',800,57,13,ink,'center','"Segoe UI"');
+  ctx.save();
+  const zoom = 1 + .028*smooth(t/20);
+  ctx.translate(800,430); ctx.scale(zoom,zoom); ctx.translate(-800,-430);
+  // As the chorus unfolds, the two cut-paper worlds drift gently toward one another.
+  const close = smooth(t/20)*24;
+  const sunT = smooth((t-3)/9);
+  const sx=420+sunT*740, sy=360-Math.sin(sunT*Math.PI)*190;
+  ctx.save(); ctx.globalAlpha=.13; ellipse(sx,sy,98,98,accent); ctx.restore();
+  ellipse(sx,sy,64,64,accent);
+  for(let n=0;n<3;n++) {
+    const x=280+n*430+Math.sin(t*.12+n)*14, y=180+(n%2)*50;
+    ctx.save(); ctx.globalAlpha=.65;
+    polygon([[x-60,y+10],[x-40,y-5],[x-15,y-4],[x,y-18],[x+25,y-13],[x+43,y+2],[x+71,y+8]],pale);
+    ctx.restore();
+  }
+  // The gutter remains visible: these are two physical pages, not a flat landscape.
+  ctx.save(); ctx.globalAlpha=.15;
+  polygon([[794,115],[801,106],[807,671],[798,696]],ink); ctx.restore();
+  ctx.save(); ctx.translate(close,0);
+  polygon([[105,515],[176,435],[237,462],[320,385],[397,474],[465,415],[625,515]],gray,true);
+  polygon([[99,541],[188,477],[270,511],[365,454],[465,510],[596,482],[692,551]],pale,true);
+  house(223,540,112,133);
+  polygon([[260,540],[261,490],[284,491],[286,540]],ink);
+  // A cut-paper tree and its separately layered leaves.
+  polygon([[137,541],[146,351],[156,350],[164,541]],ink);
+  ellipse(148,359,48,64,C['text-muted']);
+  ellipse(123,382,40,44,C['text-muted']); ellipse(176,388,35,49,C['text-muted']);
+  polygon([[84,571],[131,549],[215,553],[313,543],[428,558],[515,544],[671,572],[655,612],[128,615]],paper,true);
+  bike(281,589);
+  person(492,571,1,t,0);
+  text('HOME',330,663,16,ink,'center','"Segoe UI"');
+  text('your side of the morning',330,689,17,C['text-muted']);
+  ctx.restore();
+  ctx.save(); ctx.translate(-close,0);
+  polygon([[916,532],[993,466],[1071,483],[1140,430],[1239,480],[1324,451],[1498,545]],gray,true);
+  house(962,544,99,182,false); house(1072,544,110,130,false);
+  house(1275,544,113,159,false); house(1398,544,73,118,false);
+  polygon([[1188,545],[1190,323],[1244,324],[1248,545]],pale,true);
+  polygon([[1181,326],[1219,289],[1253,327]],C['text-muted'],true);
+  ellipse(1218,355,15,15,paper); line([[1218,344],[1218,355],[1226,359]],ink,2);
+  for(let n=0;n<3;n++) {
+    ctx.fillStyle=C['text-muted']; ctx.fillRect(1202,391+n*44,32,28);
+    ellipse(1218,391+n*44,16,13,C['text-muted']);
+  }
+  for(let n=0;n<5;n++) line([[972+n*19,402],[982+n*19,402],[982+n*19,417],[972+n*19,417]],ink,1);
+  polygon([[900,570],[1004,551],[1139,556],[1262,546],[1498,571],[1465,615],[921,613]],paper,true);
+  person(1112,574,-1,t,1);
+  text('MADRID',1264,663,16,ink,'center','"Segoe UI"');
+  text('your side of the night',1264,689,17,C['text-muted']);
+  ctx.restore();
+  const a=[530+close,439], b=[1074-close,442];
+  const sag=55-20*smooth((t-9)/5)+Math.sin(Math.floor(t*12)/12*2)*3;
+  ctx.save(); ctx.strokeStyle=accent; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(...a); ctx.bezierCurveTo(680,440+sag,900,440+sag,...b); ctx.stroke();
+  ctx.restore();
+  // A small traveling pulse makes the phone-call connection visible.
+  const pulse = (t/4)%1, px=(1-pulse)*a[0]+pulse*b[0], py=440+3*pulse*(1-pulse)*sag;
+  ellipse(px,py,5,5,accent);
+  for(let i=0;i<6;i++) {
+    const p=clamp((t-i*1.3)/10);
+    if(p<=0 || p>=1) continue;
+    const x=613+p*371+Math.sin(p*7+i)*28, y=625-Math.sin(p*Math.PI)*375;
+    ctx.save(); ctx.translate(x,y); ctx.rotate(Math.sin(p*6+i)*.25);
+    ctx.globalAlpha=Math.min(1,p*6,(1-p)*6);
+    if(p>.57) bird(0,0,1.1,t+i);
+    else {
+      polygon([[-22,-28],[20,-30],[24,27],[-23,30]],pale,true);
+      ctx.fillStyle=accent; ctx.fillRect(-22,-28,42,12);
+      text(String(18+i),0,15,24,ink);
+    }
+    ctx.restore();
+  }
+  ctx.save(); ctx.translate(800,620); ctx.rotate(-.035);
+  polygon([[-60,-48],[58,-47],[61,45],[-61,48]],pale,true);
+  ctx.fillStyle=accent; ctx.fillRect(-60,-48,118,23);
+  text('DECEMBER',0,-31,12,paper,'center','"Segoe UI"');
+  text(String(Math.max(1,24-Math.floor(t*.7))).padStart(2,'0'),0,26,45,ink);
+  ctx.restore();
+  if(t>14.841) {
+    const fade=smooth((t-14.841)/.5); ctx.save(); ctx.globalAlpha=fade;
+    polygon([[1150,343],[1260,341],[1262,384],[1160,387],[1144,399],[1151,378]],pale,true);
+    text('hola, tú',1205,369,19,ink);
+    text('…',488+close,364,28,ink); ctx.restore();
+  }
+  ctx.restore();
+  ctx.drawImage(grain,0,0);
+  const current = lyrics.findLast(([start]) => t>=start);
+  const elapsed=t-current[0];
+  ctx.save(); ctx.globalAlpha=.35+.65*smooth(elapsed/.4);
+  text(current[1],800,801,30,ink);
+  ctx.restore();
+  text('COUNTING DOWN TO DECEMBER  /  PAPER STUDY',800,856,11,C['text-muted'],'center','"Segoe UI"');
+}
+let lastFrame=-1;
+function update() {
+  const t=Math.min(20,audio.currentTime || 0);
+  // Background/camera run smoothly; character poses are deliberately quantized above.
+  if(t!==lastFrame) { draw(t); lastFrame=t; }
+  if(document.activeElement!==seek) seek.value=audio.ended?20:t;
+  clock.textContent=`0:${String(audio.ended?20:Math.floor(t)).padStart(2,'0')} / 0:20`;
+  requestAnimationFrame(update);
+}
+function report(message) {
+  const error=document.querySelector('#error'); error.hidden=false; error.textContent=message;
+}
+play.addEventListener('click',async()=>{
+  try {
+    if(audio.paused) {
+      if(audio.ended || audio.currentTime>=19.99) audio.currentTime=0;
+      await audio.play();
+    } else audio.pause();
+  } catch(error) { report(`Playback could not start: ${error.message}`); }
+});
+audio.addEventListener('play',()=>play.textContent='Pause');
+audio.addEventListener('pause',()=>play.textContent=audio.ended?'Replay':'Play with sound');
+audio.addEventListener('ended',()=>{ play.textContent='Replay'; seek.value=20; });
+audio.addEventListener('loadedmetadata',()=>{ play.disabled=false; play.textContent='Play with sound'; });
+audio.addEventListener('error',()=>report(`Audio could not load (code ${audio.error?.code ?? 'unknown'}). Open the standalone preview, which contains the audio.`));
+seek.addEventListener('input',()=>{ audio.currentTime=Number(seek.value); });
+document.querySelector('#restart').addEventListener('click',()=>{ audio.currentTime=0; });
+draw(0); requestAnimationFrame(update);
+</script>
+</body>
+</html>

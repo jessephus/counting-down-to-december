@@ -1,0 +1,5 @@
+# Private local audio and generated files containing embedded audio.
+*.m4a
+counting-down-preview.html
+counting-down-full-film.html
+.DS_Store
