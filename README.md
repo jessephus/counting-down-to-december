@@ -26,8 +26,10 @@ node check.mjs
 - `build.mjs`: creates both standalone HTML files with embedded local audio.
 - `chorus.m4a` and `full-track.m4a`: browser-compatible AAC audio assets.
 
-The audio files are committed; the generated HTML files are not. Run
-`./deploy.sh` to rebuild, check, and publish to the `gh-pages` branch. The full
+The audio files are committed; the generated HTML files are not. Every push to
+`main` runs the `Deploy to GitHub Pages` workflow
+(`.github/workflows/deploy.yml`), which rebuilds, checks, and publishes to the
+`gh-pages` branch. It can also be run manually from the Actions tab. The full
 film is served at the site root and the 20-second chorus study at
 `/counting-down-preview.html`. The Pages site is public.
 
