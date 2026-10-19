@@ -671,15 +671,15 @@ function language(t){
   label('room 17 · orchestra',440,240,18,paper,'left','Georgia');
   ctx.save();ctx.strokeStyle=paper;
   const chalk=(s,x,y,p)=>{if(p<=0)return;ctx.save();ctx.font='italic 60px Georgia';const w=ctx.measureText(s).width;ctx.beginPath();ctx.rect(x-w/2-6,y-70,(w+12)*clamp(p),100);ctx.clip();ctx.fillStyle=paper;ctx.textAlign='center';ctx.fillText(s,x,y);ctx.restore();};
-  chalk('meep',590,340,ease((t-onBeat(137.31))/1.2));
-  chalk('+',750,340,ease((t-139.2)/.3));
-  chalk('murp',900,340,ease((t-onBeat(139.79))/1.2));
-  chalk('=',1050,340,ease((t-141.1)/.3));
+  chalk('meep',590,340,ease((t-B(212))/1.2));
+  chalk('+',750,340,ease((t-B(214))/.3));
+  chalk('murp',900,340,ease((t-B(216))/1.2));
+  chalk('=',1050,340,ease((t-B(218))/.3));
   ctx.restore();
-  if(t>141.4)heart(1120,322,pop(t,141.4)*(1+kick(t)*.15),rose);
+  if(t>B(219))heart(1120,322,pop(t,B(219))*(1+kick(t)*.15),rose);
   for(const x of [330,1270]){line([[x,520],[x,640]],ink,3);poly([[x-40,480],[x+38,479],[x+44,526],[x-38,528]],white,true);}
   violin(330,600,.7,.6);violin(1270,600,.7,-.6);
-  const appear=ease((t-onBeat(139.79))/1);
+  const appear=ease((t-B(216))/1);
   alpha(.35+.65*appear,()=>{
     person(470,690,{s:1.35,t,look:1});
     person(1130,690,{boy:true,s:1.35,flip:-1,t:t+.3,look:1});
