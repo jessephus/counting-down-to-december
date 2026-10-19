@@ -480,11 +480,13 @@ function quiet(t){
   poly([[880,640],[880,330],[1110,220],[1340,330],[1340,640]],white,true);
   rect(910,350,400,290,paper);
   alpha(.18*g,()=>poly([[1040,350],[1180,350],[1300,640],[920,640]],GOLD));
-  bike(1110,610,1.15,0,[],t,g>0?kick(t)*g:0);
-  at(1176,526,1,Math.sin(t*2)*.1,()=>{line([[0,0],[0,18]],ink,1);heart(0,26,.55);});
+  ctx.save();ctx.beginPath();ctx.rect(910,350,400,290);ctx.clip();
+  bike(1110,598,1.15,0,[],t,g>0?kick(t)*g:0);
+  ctx.restore();
+  at(1176,514,1,Math.sin(t*2)*.1,()=>{line([[0,0],[0,18]],ink,1);heart(0,26,.55);});
   const door=g*250;
   ctx.save();ctx.beginPath();ctx.rect(910,350,400,290);ctx.clip();
-  for(let i=0;i<8;i++){const y=350+i*36-door;rect(910,y,400,34,muted);line([[920,y+33],[1300,y+33]],gray,1);}
+  for(let i=0;i<8;i++){const y=350+i*36.25-door;rect(910,y,400,37,muted);line([[920,y+33],[1300,y+33]],gray,1);}
   ctx.restore();
   torn(1010,660,200,36,white,13,false);script('a place for two',1110,685,19,muted);
 }
