@@ -2,7 +2,7 @@
 
 A full-length, illustrated paper-scrapbook music-video second cut for the original
 3:04 song. Built with Canvas 2D, without dependencies, external fonts, or network
-requests. This is a browser animation, not an exported video.
+requests. This is a browser animation.
 
 ## Watch
 
@@ -10,6 +10,8 @@ Open `counting-down-full-film.html` in a current desktop browser and select
 **Play with sound**. The track is embedded, so no server or internet connection
 is needed. Scrub the timeline or use **Jump to a spread** to review chapters.
 The approved 20-second chorus study remains in `counting-down-preview.html`.
+
+View the [exported video on YouTube](https://youtu.be/fqoKD67adBc).
 
 ## Edit and rebuild
 
